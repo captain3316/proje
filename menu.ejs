@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menü</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Sayfa genel ayarları */
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Formu ekranın ortasında tutmak için gerekli stil */
+        #urunFormu {
+            position: fixed;
+            /* Sayfa kaydırıldığında sabit kalacak */
+            top: 50%;
+            /* Yükseklik olarak ekranın ortasına yerleştirir */
+            left: 50%;
+            /* Genişlik olarak ekranın ortasına yerleştirir */
+            transform: translate(-50%, -50%);
+            /* Formu tam olarak ortalar */
+            background-color: white;
+            /* Arka plan rengi */
+            padding: 20px;
+            border-radius: 8px;
+            /* Köşe yuvarlama */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Hafif gölge efekti */
+            z-index: 1000;
+            /* Üstte görünmesini sağlar */
+            display: none;
+        }
+
+        /* Form alanlarının düzeni */
+        #veriFormu label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        #veriFormu input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #veriFormu button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            /* Yeşil arka plan */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #veriFormu button:hover {
+            background-color: #218838;
+            /* Buton üzerine gelindiğinde daha koyu yeşil */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 sidebar">
+                <h5 class="text-center">Sisler Bulvarı Cafe</h5>
+                <a href="/index" id="anasayfa-link">Anasayfa</a>
+                <a href="/menu" id="menu-link" class="active">Menü</a>
+                <a href="/siparisler" id="siparis-olustur-link">Siparişler</a>
+                <a href="/gunluk-istatistikler" id="gunluk-istatistikler-link">Günlük İstatistikler</a>
+                <a href="/aylik-istatistikler" id="aylik-istatistikler-link">Aylık İstatistikler</a>
+                <a href="/en-begenilenler" id="en-begenilenler-link">En Beğenilenler</a>
+            </nav>
+
+            <!-- İçerik -->
+            <div class="col-md-10 content">
+                <h3 class="text-center my-4">Menü</h3>
+
+                <!-- Kahvaltı -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <h4 class="category-title">Kahvaltı</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=kahvaltiDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < kahvaltiDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= kahvaltiDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= kahvaltiDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= kahvaltiDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- atıştırmalıklar -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Atıştırmalıklar ve Yiyecekler</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=atistirmalikDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < atistirmalikDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= atistirmalikDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= atistirmalikDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= atistirmalikDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Tatlılar -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Tatlılar</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=tatliDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < tatliDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= tatliDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= tatliDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= tatliDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sıcak İçecekler -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Sıcak İçecekler</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=sicakIcecekDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < sicakIcecekDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= sicakIcecekDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= sicakIcecekDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= sicakIcecekDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Kahveler -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Kahveler</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=kahveDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < kahveDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= kahveDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= kahveDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= kahveDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Türk Kahveler -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Türk Kahveler</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=turkKahveDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < turkKahveDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= turkKahveDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= turkKahveDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= turkKahveDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bitki Çayları -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Bitki Çayları</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=bitkiCayDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < bitkiCayDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= bitkiCayDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= bitkiCayDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= bitkiCayDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Soğuk İçecekler -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Soğuk İçecekler</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=sogukIcecekDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < sogukIcecekDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= sogukIcecekDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= sogukIcecekDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun('<%= sogukIcecekDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Soğuk KAHVELER -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Soğuk Kahveler</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=sogukKahveDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < sogukKahveDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= sogukKahveDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= sogukKahveDatas[index].urun_fiyat %>
+                                        </td>
+                                        <td><button onclick="silUrun( '<%= sogukKahveDatas[index].urun_id %>' )">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Meşrubatlar -->
+                <div class="category-section">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="category-title">Meşrubatlar</h4>
+                        <button class="btn btn-success btn-sm" id="urunEkleButonu"
+                            onclick="urunEkle('<%=mesrubatDatas[0].kategori_id %>')">Ürün Ekle</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ürün Adı</th>
+                                    <th>Fiyat (₺)</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <% for (let index=0; index < mesrubatDatas.length; index++) { %>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <%= index %>
+                                        </td>
+                                        <td>
+                                            <%= mesrubatDatas[index].urun_isim %>
+                                        </td>
+                                        <td>
+                                            <%= mesrubatDatas[index].urun_fiyat %>
+                                        </td>
+
+                                        <td><button onclick="silUrun('<%= mesrubatDatas[index].urun_id %>')">Urun
+                                                Sil</button></td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Ürün Ekleme Formu -->
+    <div id="urunFormu">
+        <h3>Ürün Ekle</h3>
+        <form id="veriFormu">
+            <label for="isim">Ürün Adı:</label>
+            <input type="text" id="isim" name="isim" placeholder="Ürün adı girin" required><br><br>
+
+            <label for="fiyat">Ürün Fiyatı:</label>
+            <input type="number" id="fiyat" name="fiyat" placeholder="Ürün fiyatını girin" required><br><br>
+
+            <label for="maliyet">Maliyeti:</label>
+            <input type="number" id="maliyet" name="maliyet" placeholder="Maliyet Giriniz" required><br><br>
+
+            <button type="submit">Gönder</button>
+        </form>
+    </div>
+
+    <!-- Menü Verileri -->
+    <script>
+        function silUrun(urunId) {
+
+            if (confirm("Bu ürünü silmek istediğinizden emin misiniz?")) {
+
+                fetch(`/silUrun/${urunId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw new Error('Silme işlemi başarısız oldu');
+                        }
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            alert("Ürün başarıyla silindi!");
+
+                            location.reload();
+                        } else {
+                            alert("Bir hata oluştu.");
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        alert("Bir hata oluştu.");
+                    });
+            }
+        }
+
+        let formListenerAdded = false;
+
+
+        function urunEkle(kategoriId) {
+            const urunFormu = document.getElementById('urunFormu');
+            const urunEkleButonu = document.getElementById('urunEkleButonu');
+            let formListenerAdded = false;
+
+            if (urunFormu.style.display == 'none' ) {
+                urunFormu.style.display = 'block';
+                urunEkleButonu.textContent = 'Formu Gizle';
+            } else {
+                urunFormu.style.display = 'none';
+                urunEkleButonu.textContent = 'Ürün Ekle';
+            }
+
+
+            if (!formListenerAdded) {
+                document.getElementById('veriFormu').addEventListener('submit', function (event) {
+                    
+
+
+                    const isim = document.getElementById('isim').value;
+                    const fiyat = document.getElementById('fiyat').value;
+                    const maliyet = document.getElementById('maliyet').value;
+
+
+
+                    fetch('/urunEkle', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            isim: isim,
+                            fiyat: fiyat,
+                            maliyet: maliyet,
+                            kategoriId: kategoriId
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Sunucu yanıtı başarısız');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+
+
+                            alert("Ürün başarıyla eklendi");
+                            urunFormu.style.display = 'none';
+                            urunEkleButonu.textContent = 'Ürün Ekle';
+                            document.getElementById('veriFormu').reset();
+                            location.reload();
+
+
+                        })
+                        .catch(error => {
+                            console.error('Hata:', error);
+                            alert("Ürün eklendi.");
+                        });
+                });
+
+                formListenerAdded = true;
+            }
+
+        }
+
+
+    </script>
+    <script src="/js/active.js"></script>
+</body>
+
+</html>
